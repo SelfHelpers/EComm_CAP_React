@@ -1,0 +1,42 @@
+#############################  User  Service   #######################################
+### Run login action
+POST http://localhost:4004/odata/v4/ecommservice/login
+Content-Type: application/json
+
+{ "username": "Chandan",
+  "password": "hello3214"
+  }
+
+### Run Update on Users entiry
+PUT http://localhost:4004/odata/v4/ecommservice/Users(58040e66-1dcd-4ffb-ab10-fdce32028b80)
+Content-Type: application/json
+
+{ "username": "Chandan",
+  "password": "hello321"
+  }  
+
+#############################  Product Service   #######################################
+### Create Product
+POST http://localhost:4004/odata/v4/ecommservice/Products
+Content-Type: application/json
+
+{   "title": "Electronics",
+    "desc": "Dell Monitor",
+    "img": "test img",
+    "categories": [ {Electronics} ],
+    "size": "36 Inch",
+    "color": "Black",
+    "price": 30.5,
+    "currency": "INR"
+  } 
+
+### Submit Orders
+POST http://localhost:4004/browse/Orders
+Content-Type: application/json
+
+{ "OrderNo":"2019-09...", "Items":[
+    { "book_ID":201, "amount":5 }
+]}
+
+### Check books entity that stock was reduced
+GET http://localhost:4004/odata/v4/ecommservice/Users
