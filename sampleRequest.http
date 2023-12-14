@@ -21,14 +21,66 @@ POST http://localhost:4004/odata/v4/ecommservice/Products
 Content-Type: application/json
 
 {   "title": "Electronics",
-    "desc": "Dell Monitor",
+    "desc": "Dell Monitor2",
     "img": "test img",
-    "categories": [ {Electronics} ],
+    "categories": [ "Electronics2" , "Monitor2" ],
     "size": "36 Inch",
     "color": "Black",
     "price": 30.5,
-    "currency": "INR"
+    "currency_code": "INR"
   } 
+
+### Get Products
+GET http://localhost:4004/odata/v4/ecommservice/Products  
+
+### Get Products by categories(Odata Lambda operator)  ----Not working
+GET http://localhost:4004/odata/v4/ecommservice/Products?$filter=categories/any(s:contains(s, 'Electro'))
+
+### Test  ----Not working
+GET http://localhost:4004/odata/v4/ecommservice/Products?$filter=price eq 30.5
+
+### Get Top 5 products by createdAt
+GET http://localhost:4004/odata/v4/ecommservice/Products?$orderby=createdAt desc&$top=2
+
+
+#############################  Cart Service   #######################################
+
+### Create Cart
+POST http://localhost:4004/odata/v4/ecommservice/Carts
+Content-Type: application/json
+
+{   "userId_ID": "58040e66-1dcd-4ffb-ab10-fdce32028b79",
+    "products": [
+      {
+        "productId_ID" : "1f341757-e7c9-4091-adf2-94bb681370d1",
+         "quantity" : 2
+      }
+    ]
+  } 
+
+### Get Carts
+GET http://localhost:4004/odata/v4/ecommservice/Carts?$expand=products
+
+#############################  Order Service   #######################################
+
+### Create Order
+POST http://localhost:4004/odata/v4/ecommservice/Orders
+Content-Type: application/json
+
+{   "userId_ID": "58040e66-1dcd-4ffb-ab10-fdce32028b79",
+    "products": [
+      {
+        "productId_ID" : "1f341757-e7c9-4091-adf2-94bb681370d1",
+         "quantity" : 2
+      }
+    ],
+    "amount" : 20.2,
+    "address_Country" : "India",
+    "status" : "Pending"
+  } 
+
+### Get Orders
+GET http://localhost:4004/odata/v4/ecommservice/Orders
 
 ### Submit Orders
 POST http://localhost:4004/browse/Orders
