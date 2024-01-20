@@ -2,8 +2,7 @@ using { Currency, User, managed, cuid } from '@sap/cds/common';
 namespace MyEcommProj;
 
 @assert.unique: {
-  name: [ username ],
-  mail: [ email ],
+  mail: [ email ]
 }
 entity Users : cuid, managed {
     username: String @mandatory;

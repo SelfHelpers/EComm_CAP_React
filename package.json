@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^7",
+    "crypto-js": "^4.2.0",
     "express": "^4"
   },
   "devDependencies": {
@@ -14,5 +15,34 @@
   },
   "scripts": {
     "start": "cds-serve"
+  },
+
+  "cds": {
+    "requires": {
+          "[development]": {
+            "auth": {
+              "kind": "mocked",
+              "users": {
+                "58040e66-1dcd-4ffb-ab10-fdce32028b79": {
+                  "password": "123",
+                  "roles": ["Admin"]
+                },
+                "58040e66-1dcd-4ffb-ab10-fdce32028b80": {
+                  "password": "123"
+                }
+              }
+            },
+            "db": {
+              "kind": "sql"
+            }
+          },
+
+      "db": {
+        "kind": "hana"
+      }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
   }
 }

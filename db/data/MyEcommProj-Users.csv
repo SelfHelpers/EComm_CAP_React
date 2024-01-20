@@ -1,3 +1,3 @@
 ID;username;email;password;isAdmin
-58040e66-1dcd-4ffb-ab10-fdce32028b79;Chandan;chandan@sap.com;hello321;false
-58040e66-1dcd-4ffb-ab10-fdce32028b80;Abhishek;abhishek@sap.com;hello321;false
+58040e66-1dcd-4ffb-ab10-fdce32028b79;Chandan;chandan@sap.com;123;false
+58040e66-1dcd-4ffb-ab10-fdce32028b80;Abhishek;abhishek@sap.com;123;false

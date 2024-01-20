@@ -38,3 +38,4 @@ db/data/MyProj-Items.csv
 db/data/MyProj-Orders.csv
 db/model.cds
 srv/anyservice.cds
+.env
