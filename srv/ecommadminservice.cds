@@ -1,7 +1,7 @@
 using  MyEcommProj from '../db/ecomm';
 
 service ecommAdminService @(requires: 'Admin'){
-    entity Users as projection on MyEcommProj.Users excluding { password };
+    entity Users as projection on MyEcommProj.Users; // excluding { password };
     entity Products as projection on MyEcommProj.Products;
     entity Carts as projection on MyEcommProj.Carts;
     entity Orders as projection on MyEcommProj.Orders;

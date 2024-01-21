@@ -13,8 +13,8 @@ Content-Type: application/json
 POST http://localhost:4004/odata/v4/ecommservice/login
 Content-Type: application/json
 
-{ "username": "Chandan",
-  "password": "hello3214"
+{ "email": "anand@sap.com",
+  "password": "123"
   }
 
 ### Read Products

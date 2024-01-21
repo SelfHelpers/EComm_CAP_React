@@ -8,7 +8,8 @@
   "dependencies": {
     "@sap/cds": "^7",
     "crypto-js": "^4.2.0",
-    "express": "^4"
+    "express": "^4",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1"
@@ -16,27 +17,28 @@
   "scripts": {
     "start": "cds-serve"
   },
-
   "cds": {
     "requires": {
-          "[development]": {
-            "auth": {
-              "kind": "mocked",
-              "users": {
-                "58040e66-1dcd-4ffb-ab10-fdce32028b79": {
-                  "password": "123",
-                  "roles": ["Admin"]
-                },
-                "58040e66-1dcd-4ffb-ab10-fdce32028b80": {
-                  "password": "123"
-                }
-              }
+      "[development]": {
+        "auth": {
+          "kind": "jwt-auth",
+          "impl": "custom-auth.js",
+          "users": {
+            "58040e66-1dcd-4ffb-ab10-fdce32028b79": {
+              "password": "123",
+              "roles": [
+                "Admin"
+              ]
             },
-            "db": {
-              "kind": "sql"
+            "58040e66-1dcd-4ffb-ab10-fdce32028b80": {
+              "password": "123"
             }
-          },
-
+          }
+        },
+        "db": {
+          "kind": "sql"
+        }
+      },
       "db": {
         "kind": "hana"
       }
