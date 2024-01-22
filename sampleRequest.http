@@ -3,17 +3,18 @@
 POST http://localhost:4004/odata/v4/ecommservice/Users
 Content-Type: application/json
 
-{ "ID": "58040e66-1dcd-4ffb-ab10-fdce32028b81",
-  "username": "Anand",
-  "email": "anand@sap.com",
-  "password": "123"
+{ "ID": "58040e66-1dcd-4ffb-ab10-fdce32028b80",
+  "username": "Chandan",
+  "email": "chandan@sap.com",
+  "password": "123",
+  "isAdmin": true
   }
 
 ### Run login action
 POST http://localhost:4004/odata/v4/ecommservice/login
 Content-Type: application/json
 
-{ "email": "anand@sap.com",
+{ "email": "chandan@sap.com",
   "password": "123"
   }
 
@@ -22,14 +23,17 @@ GET http://localhost:4004/odata/v4/ecommservice/Products
 
 
 ############################# Admin  Service   #######################################
+###Get Users using basic Auth
+# GET http://localhost:4004/odata/v4/ecomm-admin/Users
+# Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
+
 ###Get Users
 GET http://localhost:4004/odata/v4/ecomm-admin/Users
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjU4MDQwZTY2LTFkY2QtNGZmYi1hYjEwLWZkY2UzMjAyOGI4MCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcwNTkxNjg4NSwiZXhwIjoxNzA2MDAzMjg1fQ.sYEnFeAi0E8g6oNce9ZVrr4ZMIim98zav3mI8MJ_bLg
 
 ### Run Update on Users entiry (Admin can not update User password because that is a hidden field in Admin service)
-PATCH http://localhost:4004/odata/v4/ecomm-admin/Users(58040e66-1dcd-4ffb-ab10-fdce32028b79)
+PATCH http://localhost:4004/odata/v4/ecomm-admin/Users(58040e66-1dcd-4ffb-ab10-fdce32028b80)
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 { "username": "Chandan",
   "isAdmin": true
@@ -38,7 +42,6 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 ### Create Product
 POST http://localhost:4004/odata/v4/ecomm-admin/Products
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 {   "title": "Electronics",
     "desc": "Dell Monitor2",
@@ -52,35 +55,28 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Get Products
 GET http://localhost:4004/odata/v4/ecomm-admin/Products
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Get Orders
 GET http://localhost:4004/odata/v4/ecomm-admin/Orders
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Get Carts
 GET http://localhost:4004/odata/v4/ecomm-admin/Carts
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Get Products by categories(Odata Lambda operator)  ----Not working
 GET http://localhost:4004/odata/v4/ecomm-admin/Products?$filter=categories/any(s:contains(s, 'Electro'))
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Test  ----Not working
 GET http://localhost:4004/odata/v4/ecomm-admin/Products?$filter=price eq 30.5
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 ### Get Top 5 products by createdAt
 GET http://localhost:4004/odata/v4/ecomm-admin/Products?$orderby=createdAt desc&$top=2
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b79:123
 
 
 
 ############################# Users Service   #######################################
 ### Run Update on Users entiry
-PATCH http://localhost:4004/odata/v4/ecomm-user/Users(58040e66-1dcd-4ffb-ab10-fdce32028b80)
+PATCH http://localhost:4004/odata/v4/ecomm-user/Users(58040e66-1dcd-4ffb-ab10-fdce32028b79)
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 { "username": "Abhishek",
   "password": "1234"
@@ -89,7 +85,6 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 ### Create Cart
 POST http://localhost:4004/odata/v4/ecomm-user/Carts
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 {   "userId_ID": "58040e66-1dcd-4ffb-ab10-fdce32028b80",
     "products": [
@@ -102,12 +97,10 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 ### Get Carts
 GET http://localhost:4004/odata/v4/ecomm-user/Carts?$expand=products
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 ### Create Order
 POST http://localhost:4004/odata/v4/ecomm-user/Orders
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 {   "userId_ID": "58040e66-1dcd-4ffb-ab10-fdce32028b80",
     "products": [
@@ -124,7 +117,6 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 ### Update Order
 PUT http://localhost:4004/odata/v4/ecomm-user/Orders(19b1f2b7-5039-4e5d-bfc8-9cb3de23fa5c)
 Content-Type: application/json
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 {   "userId_ID": "58040e66-1dcd-4ffb-ab10-fdce32028b80",
     "products": [
@@ -140,4 +132,7 @@ Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
 
 ### Get Orders
 GET http://localhost:4004/odata/v4/ecomm-user/Orders
-Authorization: Basic 58040e66-1dcd-4ffb-ab10-fdce32028b80:123
+
+### Get User
+GET http://localhost:4004/odata/v4/ecomm-user/Users
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjU4MDQwZTY2LTFkY2QtNGZmYi1hYjEwLWZkY2UzMjAyOGI4MSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3MDU5MTY5MDMsImV4cCI6MTcwNjAwMzMwM30.pZuhak_nzaAtUIZqD3HlsO2xsnIoDps2hPhGc_nJcs0

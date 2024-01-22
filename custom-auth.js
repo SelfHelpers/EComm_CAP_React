@@ -2,45 +2,49 @@ const jwt = require("jsonwebtoken");
 
 
 const verifyToken = async (req, res) => {
-    const authToken = req.header.token;
-    console.log(req.header);
+    let user;
+    const authToken = req.headers.token;
     if (authToken) {
-        jwt.verify(authToken,process.env.JWT_SEC, (err, user) => {
+        jwt.verify(authToken,process.env.JWT_SEC, (err, retUser) => {
             if (err) {
                 res.status(401).json({message: "Failed to authenticate"});
-            } else {
-                return user;
+            } else {    
+                user = retUser;
             }
         })
+        return user;
     } else {
         res.status(401).json( {message: "Failed to authenticate"});
     }
 }
 
 const authenticate = async (req, res, next) => {
-    console.log("authentication file");
-    if (req.method !== "POST" || 
-        (req.originalUrl !== "/odata/v4/ecommservice/Users" && 
-        req.originalUrl !== "/odata/v4/ecommservice/login")) {
+    
+    if (req.headers.token) {
+    
+    try{
+        const tokenUser = await verifyToken(req, res);
 
-    const tokenUser = verifyToken(req, res);
-    if (tokenUser) {
-        let scopes = [];
-        if (tokenUser.isAdmin) {
-            scopes = [ "Admin" ];
-        }else{ scopes = []; }
-
-        const user = new cds.User ({
-            id: tokenUser.ID,
-            user_name: tokenUser.ID,
-            user_id: tokenUser.ID,
-            _roles: ['any', 'authenticated-user', ...scopes]
-        })
-        req.user = user;
+        if (tokenUser) {
+            
+            let scopes = [];
+            if (tokenUser.isAdmin) {
+                scopes = [ "Admin" ];
+            }else{ scopes = []; }
+    
+            const user = new cds.User ({
+                id: tokenUser.ID,
+                // user_name: tokenUser.ID,
+                // user_id: tokenUser.ID,
+                _roles: ['any', 'authenticated-user', ...scopes]
+            })
+            req.user = user;
+        }
+    } catch (e) {
+        console.log(e);
     }
         
     }
-    
     next();
 }
 
