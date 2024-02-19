@@ -28,10 +28,7 @@ const authenticate = async (req, res, next) => {
         if (tokenUser) {
             
             let scopes = [];
-            if (tokenUser.isAdmin) {
-                scopes = [ "Admin" ];
-            }else{ scopes = []; }
-    
+            scopes = token.Admin ? scopes.push("Admin") : scopes;
             const user = new cds.User ({
                 id: tokenUser.ID,
                 // user_name: tokenUser.ID,
